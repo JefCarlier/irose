@@ -58,7 +58,7 @@ bool zz_font_d3d::init_device_objects ()
 	fontDesc.Italic						= this->get_italic();
 	fontDesc.CharSet					= this->font_charset;
 	fontDesc.OutputPrecision		= OUT_DEFAULT_PRECIS;	
-	fontDesc.Quality					= PROOF_QUALITY;
+	fontDesc.Quality					= ANTIALIASED_QUALITY;
 	fontDesc.PitchAndFamily		= FIXED_PITCH | FF_MODERN;
 	strcpy( fontDesc.FaceName, font_name.get() );
 
