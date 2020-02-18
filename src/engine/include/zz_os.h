@@ -17,6 +17,7 @@
 
 
 enum zz_os_counter_type {
+	TIMER_RDTSCP, // rdtscp
 	TIMER_RDTSC, // rdtsc
 	TIMER_QPC, // QueryPerformanceCounter
 	TIMER_TIMEGETTIME, // timeGetTime
@@ -39,6 +40,21 @@ namespace zz_os {
 	// initialize thing
 	void initialize ();
 
+	// checks if support rdtscp
+	inline bool check_rdtscp ()
+	{
+		__try {
+			__asm {
+				rdtscp
+			}
+		}
+		__except( EXCEPTION_EXECUTE_HANDLER )
+		{
+			return false;
+		}
+		return true;
+	}
+
 	// checks if support rdtsc
 	inline bool check_rdtsc ()
 	{
@@ -60,6 +76,18 @@ namespace zz_os {
 	{
 		LARGE_INTEGER qwTicksPerSec;
 		return QueryPerformanceFrequency(&qwTicksPerSec) ? true : false;
+	}
+
+	// get fast cpu clock ticks (using rdtscp)
+	inline void get_ticks_rdtscp (uint64& ticks)
+	{
+		uint32 _low, _high;
+		__asm {
+			rdtscp
+			mov _low, eax
+			mov _high, edx
+		}
+		ticks = (static_cast<unsigned __int64>(_high) << 32) | static_cast<unsigned __int64>(_low);
 	}
 
 	// get fast cpu clock ticks (using rdtsc)
@@ -87,6 +115,19 @@ namespace zz_os {
 	inline void get_ticks_tgt (uint64& ticks)
 	{
 		ticks = static_cast<uint64>(timeGetTime());
+	}
+
+	// check and initialize rdtsc
+	inline bool init_rdtscp ()
+	{
+		if (!check_rdtscp()) return false;
+
+		uint64 start, end;
+		get_ticks_rdtscp(start);
+		Sleep(1000); // to measure 1 second.
+		get_ticks_rdtscp(end);
+		g_ticks_per_second = end - start;
+		return true;
 	}
 
 	// check and initialize rdtsc
@@ -122,7 +163,10 @@ namespace zz_os {
 	// get ticks
 	inline void get_ticks (uint64& ticks)
 	{
-		(*g_get_ticks_ptr)(ticks);
+		if (g_get_ticks_ptr != nullptr)
+		{
+			(*g_get_ticks_ptr)(ticks);
+		}
 	}
 
 	void get_system_time (uint64& systime); // get system time in 100-nanosecs since 1601/1/1

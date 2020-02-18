@@ -93,7 +93,13 @@ void zz_os::initialize ()
 
 	char * counter_string = NULL;
 
-	if (false){ //init_rdtsc()) { // try rdtsc and initialize
+    if (init_rdtscp()) {
+        // try rdtscp and initialize
+        g_counter_type = TIMER_RDTSCP;
+        g_get_ticks_ptr = get_ticks_rdtscp;
+        counter_string = "rdtscp";
+    }
+	else if (false){ //init_rdtsc()) { // try rdtsc and initialize
 		g_counter_type = TIMER_RDTSC;
 		g_get_ticks_ptr = zz_os::get_ticks_rdtsc;
 		counter_string = "rdtsc";
