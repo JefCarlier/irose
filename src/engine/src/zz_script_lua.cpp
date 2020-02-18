@@ -110,10 +110,11 @@
 #include "zz_renderer.h"
 #include "zz_log.h"
 #include "zz_script_lua.h"
+
 #include "zz_vfs.h"
 #include "zz_shader.h"
 
-#define ZZ_LUA500
+#define ZZ_LUAJIT
 
 // file scope variables
 // for saved return type
@@ -130,7 +131,10 @@ ZZ_IMPLEMENT_DYNCREATE(zz_script_lua, zz_script)
 
 zz_script_lua::zz_script_lua (const char * filename) : param_count(0), zz_script()
 {
-#ifdef ZZ_LUA500	
+#ifdef ZZ_LUAJIT
+	L = luaL_newstate();
+	luaL_openlibs(L);
+#elif ZZ_LUA500	
 	L = lua_open();
 	luaopen_base(L);
 	luaopen_string(L);
@@ -183,7 +187,15 @@ bool zz_script_lua::do_script (const char * filename, const char * buffer)
 	int lua_error = 0;
 
 	if (ret != false) {
+#ifdef ZZ_LUAJIT
+		lua_error = luaL_loadbuffer(L, data, size, nullptr);
+
+		if (lua_error == 0) {
+			lua_error = lua_pcall(L, 0, 0, 0);
+		}
+#else
 		lua_error = lua_dobuffer(L, data, size, NULL);
+#endif
 		//script_file.dump();
 	}
 
@@ -360,11 +372,10 @@ bool zz_script_lua::call (const char * function_name, va_list va)
 		}
 	}
 
-	
-#ifdef ZZ_LUA500
-	int err = lua_pcall(L, param_count, 0 /* nresults */, 0 /* errfunc */);
+#if defined(ZZ_LUA500) || defined(ZZ_LUAJIT)
+	const int err = lua_pcall(L, param_count, 0 /* nresults */, 0 /* errfunc */);
 #else // 401
-	int err = lua_call(L, param_count, 0 /* nresults */);
+	const int err = lua_call(L, param_count, 0 /* nresults */);
 #endif
 
 	param_count = 0;
@@ -555,13 +566,26 @@ int zz_lua_setLight (lua_State * L)
 // lua error message receiver
 // redefinition of luaB__ALERT() in lbaselib.c
 static int my_ERROR_MESSAGE (lua_State *L) {
-	ZZ_LOG("script_lua:error: %s in [%s]\n", luaL_check_string(L, 1), current_lua_file);
+	const char* luaString;
+#ifdef ZZ_LUAJIT
+	luaString = luaL_checkstring(L, 1);
+#else
+	luaString = luaL_check_string(L, 1);
+#endif
+	
+	ZZ_LOG("script_lua:error: %s in [%s]\n", luaString, current_lua_file);
 	return 0;
 }
 
-static int my_ALERT_MESSAGE (lua_State * L)
-{
-	ZZ_LOG("script_lua:alert: %s in [%s]\n", luaL_check_string(L, 1), current_lua_file);
+static int my_ALERT_MESSAGE (lua_State * L) {
+	const char* luaString;
+#ifdef ZZ_LUAJIT
+	luaString = luaL_checkstring(L, 1);
+#else
+	luaString = luaL_check_string(L, 1);
+#endif
+	
+	ZZ_LOG("script_lua:alert: %s in [%s]\n", luaString, current_lua_file);
 	return 0;
 }
 

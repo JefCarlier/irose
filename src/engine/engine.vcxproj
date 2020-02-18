@@ -45,7 +45,7 @@
     <IntDir Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">$(SolutionDir)build\$(Configuration)\$(ProjectName)\</IntDir>
     <ExtensionsToDeleteOnClean Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">*.obj%3b*.ilk%3b*.tlb%3b*.tli%3b*.tlh%3b*.tmp%3b*.rsp%3b*.pgc%3b*.pgd%3b</ExtensionsToDeleteOnClean>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='debug|Win32'" />
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='release|Win32'">$(SolutionDir)bin\$(Configuration)\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='release|Win32'">$(SolutionDir)game\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='release|Win32'">$(SolutionDir)build\$(Configuration)\$(ProjectName)\</IntDir>
     <ExtensionsToDeleteOnClean Condition="'$(Configuration)|$(Platform)'=='release|Win32'">*.obj%3b*.ilk%3b*.tlb%3b*.tli%3b*.tlh%3b*.tmp%3b*.rsp%3b*.pgc%3b*.pgd%3b</ExtensionsToDeleteOnClean>
     <PreBuildEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='release|Win32'">true</PreBuildEventUseInBuild>
@@ -125,7 +125,7 @@
       <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
       <OmitFramePointers>false</OmitFramePointers>
       <EnableFiberSafeOptimizations>false</EnableFiberSafeOptimizations>
-      <AdditionalIncludeDirectories>$(ProjectDir)include;$(ProjectDir);$(SolutionDir)3rdParty\include;$(SolutionDir)3rdParty\include\lua500;$(SolutionDir)3rdParty\dx90csdk\include;$(SolutionDir)src\triggervfs\include;$(SolutionDir)src\lib_util;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)include;$(ProjectDir);$(SolutionDir)3rdParty\include;$(SolutionDir)3rdParty\dx90csdk\include;$(SolutionDir)src\triggervfs\include;$(SolutionDir)src\lib_util;$(SolutionDir)3rdParty\moonjit\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;ZZ_DLL_EXPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PrecompiledHeader>
@@ -140,7 +140,7 @@
       <ResourceOutputFileName>$(IntDir)znzin.res</ResourceOutputFileName>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>lua500.lib;triggervfs.lib;lib_util.lib;legacy_stdio_definitions.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>lua51.lib;triggervfs.lib;lib_util.lib;legacy_stdio_definitions.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName).dll</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)3rdParty\lib;$(SolutionDir)3rdParty\dx90csdk\lib;$(SolutionDir)bin\$(Configuration);$(SolutionDir)bin\$(Configuration\thirdparty;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>libcp.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
