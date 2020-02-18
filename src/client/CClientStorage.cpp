@@ -300,8 +300,8 @@ void CClientStorage::ApplyCameraOption( short i )
 
 
 		HNODE camera = findNode( "avatar_camera" );
-		setCameraAspectRatio( camera, atof(CAMERA_ASPECT_RATIO(i)) );
-		setCameraPerspective( camera, CAMERA_FOV(i), atof(CAMERA_ASPECT_RATIO(i)), CAMERA_NEAR_PLANE(i) * 100, CAMERA_FAR_PLANE(i) * 100);
+		setCameraAspectRatio( camera, 0 );
+		setCameraPerspective( camera, CAMERA_FOV(i), 0, CAMERA_NEAR_PLANE(i) * 100, CAMERA_FAR_PLANE(i) * 100);
 		g_GameDATA.m_nSightRange = CAMERA_MAX_RANGE(i) / 10;
 	}
 }
