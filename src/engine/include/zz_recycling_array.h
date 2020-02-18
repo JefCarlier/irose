@@ -61,7 +61,7 @@ public:
 		if (m_bAlive[i]) {
 			// huh? if we got here, there are no free elements in the list... yet 
 			// GetNumFreeElements didn't tell us that in the beginning.  Logic error.
-			throw(std::logic_error("TArrayElement::New(): internal logic error."));
+			throw("TArrayElement::New(): internal logic error.");
 		}
 
 		// clear it
