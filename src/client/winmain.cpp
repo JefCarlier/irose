@@ -178,12 +178,6 @@ int APIENTRY WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmd
 	g_pCApp->SetFullscreenMode( iFullScreen );
 	g_pCApp->CreateWND ("classCLIENT", "Tsuki Online [loading]", Resolution.iWidth, Resolution.iHeight,Resolution.iDepth, hInstance);
 
-#ifndef _DEBUG
-	// 시스템 정보를 모음
-	TI_ReadSysInfoFile ();
-#endif
-
-
 	g_pObjMGR = CObjectMANAGER::Instance ();
 	g_pCApp->ResetExitGame();
 

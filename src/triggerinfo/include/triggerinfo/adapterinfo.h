@@ -37,8 +37,6 @@ public:
 	AdapterInformation * GetData (void);
 
 	void GetSystemInformation (int iAdapterNO);
-
-	bool CheckDesiredRes (int iWidht, int iHeight);
 };
 
 #endif

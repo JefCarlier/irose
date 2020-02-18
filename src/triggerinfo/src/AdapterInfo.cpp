@@ -7,24 +7,6 @@ struct DesiredRes
 	int iHeight;
 };
 
-DesiredRes DesrRes[] = 
-{
-	{640, 480},	{800, 600},	{1024, 768},	{1152, 864},
-	{1280, 768}, {1280, 960}, {1280, 1024},	{1600, 1200}
-};
-
-bool CAdapterInfo::CheckDesiredRes (int iWidth, int iHeight)
-{
-	for(int i = 0; i < sizeof (DesrRes) / sizeof (DesiredRes); i++)
-	{
-		if(iWidth == DesrRes[ i ].iWidth && iHeight == DesrRes[ i ].iHeight)
-			return true;
-	}
-
-	return false;
-}
-
-
 void CAdapterInfo::GetSystemInformation (int iAdapterNO)
 {
 	D3DDISPLAYMODE checked_display_mode;
@@ -39,21 +21,15 @@ void CAdapterInfo::GetSystemInformation (int iAdapterNO)
 			int bpp=0;
 			if (checked_display_mode.Format == D3DFMT_R5G6B5) 
 			{
-				if(CheckDesiredRes (checked_display_mode.Width, checked_display_mode.Height))
-				{
-					if(checked_display_mode.RefreshRate % 5 == 0)
-					{      		  
-						bpp=16; 
-						buffer_resolution=&(m_pAdapter->pAdapter[iAdapterNO].pResolution[m_pAdapter->pAdapter[iAdapterNO].nResolution]);
-						buffer_resolution->frequency	= checked_display_mode.RefreshRate;
-						buffer_resolution->pixel_color	= bpp;
-						buffer_resolution->pixel_height = checked_display_mode.Height;
-						buffer_resolution->pixel_width	= checked_display_mode.Width;
-						buffer_resolution->adaptor_number = iAdapterNO;
+				bpp=16; 
+				buffer_resolution=&(m_pAdapter->pAdapter[iAdapterNO].pResolution[m_pAdapter->pAdapter[iAdapterNO].nResolution]);
+				buffer_resolution->frequency	= checked_display_mode.RefreshRate;
+				buffer_resolution->pixel_color	= bpp;
+				buffer_resolution->pixel_height = checked_display_mode.Height;
+				buffer_resolution->pixel_width	= checked_display_mode.Width;
+				buffer_resolution->adaptor_number = iAdapterNO;
 
-						m_pAdapter->pAdapter[iAdapterNO].nResolution++;
-					}
-				}
+				m_pAdapter->pAdapter[iAdapterNO].nResolution++;
 			}
 		}
 	}
@@ -65,21 +41,15 @@ void CAdapterInfo::GetSystemInformation (int iAdapterNO)
 			int bpp=0;
 			if (checked_display_mode.Format == D3DFMT_X8R8G8B8) 
 			{
-				if(CheckDesiredRes (checked_display_mode.Width, checked_display_mode.Height))
-				{
-					if(checked_display_mode.RefreshRate % 5 == 0)
-					{      		  
-						bpp=32; 
-						buffer_resolution=&(m_pAdapter->pAdapter[iAdapterNO].pResolution[m_pAdapter->pAdapter[iAdapterNO].nResolution]);
-						buffer_resolution->frequency	= checked_display_mode.RefreshRate;
-						buffer_resolution->pixel_color	= bpp;
-						buffer_resolution->pixel_height = checked_display_mode.Height;
-						buffer_resolution->pixel_width	= checked_display_mode.Width;
-						buffer_resolution->adaptor_number = iAdapterNO;
+				bpp=32; 
+				buffer_resolution=&(m_pAdapter->pAdapter[iAdapterNO].pResolution[m_pAdapter->pAdapter[iAdapterNO].nResolution]);
+				buffer_resolution->frequency	= checked_display_mode.RefreshRate;
+				buffer_resolution->pixel_color	= bpp;
+				buffer_resolution->pixel_height = checked_display_mode.Height;
+				buffer_resolution->pixel_width	= checked_display_mode.Width;
+				buffer_resolution->adaptor_number = iAdapterNO;
 
-						m_pAdapter->pAdapter[iAdapterNO].nResolution++;
-					}
-				}
+				m_pAdapter->pAdapter[iAdapterNO].nResolution++;
 			}
 		}
 	}

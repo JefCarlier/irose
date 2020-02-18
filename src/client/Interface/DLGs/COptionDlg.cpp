@@ -47,7 +47,7 @@ bool COptionDlg::Create( const char* szIDD )
 	if( CTDialog::Create( szIDD ) == false )
 		return false;
 
-	m_pAdptInfo = TI_ReadAdptInfoFile ();
+	m_pAdptInfo = TI_GetAdptInfo ();
 	int	iAdptIDX = 0;
 
 	SystemResolution *pResolution = m_pAdptInfo->pAdapter[ iAdptIDX ].pResolution;
