@@ -3606,6 +3606,18 @@ int reloadTextures ( void )
 }
 
 ZZ_SCRIPT
+int getCurrentTime ( void )
+{
+	CHECK_INTERFACE(getCurrentTime);
+
+	if (znzin == nullptr) {
+		return 0;
+	}
+
+	return static_cast<int>(znzin->get_current_time());
+}
+
+ZZ_SCRIPT
 int getTimeDiff ( void )
 {
 	CHECK_INTERFACE(getTimeDiff);

@@ -1841,6 +1841,21 @@ int zz_lua_getTexturePointer (lua_State * L)
 }
 
 //--------------------------------------------------------------------------------
+// getCurrentTime
+//--------------------------------------------------------------------------------
+int zz_lua_getCurrentTime (lua_State * L)
+{
+	int param_index = 1;
+	const char where[] = "getCurrentTime";
+	int return_num = 0;
+
+
+	set_param_int( L, return_num, getCurrentTime( ) );
+
+	return return_num;
+}
+
+//--------------------------------------------------------------------------------
 // getTimeDiff
 //--------------------------------------------------------------------------------
 int zz_lua_getTimeDiff (lua_State * L)

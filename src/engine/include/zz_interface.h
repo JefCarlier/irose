@@ -1316,6 +1316,9 @@ int unloadNodeRecursive ( HNODE hNode );
 ZZ_SCRIPT
 int reloadTextures ( void );
 
+ZZ_SCRIPT
+int getCurrentTime ( void );
+	
 /// 시간차 얻기
 /// @return 시간차(단위는 milisecond)
 ZZ_SCRIPT
