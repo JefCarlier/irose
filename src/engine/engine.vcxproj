@@ -67,8 +67,7 @@
     </PreLinkEventUseInBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'">
-    <PreLinkEventUseInBuild>
-    </PreLinkEventUseInBuild>
+    <PreLinkEventUseInBuild>true</PreLinkEventUseInBuild>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">
     <PreBuildEvent>
@@ -111,8 +110,10 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'">
     <PreBuildEvent>
-      <Message>Increasing Build Count</Message>
-      <Command>cd $(ProjectDir)include</Command>
+      <Message>
+      </Message>
+      <Command>
+      </Command>
     </PreBuildEvent>
     <CustomBuildStep>
       <Command>
@@ -165,11 +166,18 @@
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
     </Link>
     <PostBuildEvent>
-      <Message>
-      </Message>
-      <Command>
-      </Command>
+      <Message>Copy lua51.dll to game</Message>
+      <Command>copy /Y "$(SolutionDir)3rdParty\moonjit\src\lua51.dll" "$(SolutionDir)game\"</Command>
     </PostBuildEvent>
+    <PreLinkEvent>
+      <Command>cd "$(SolutionDir)3rdParty\moonjit\src"
+call msvcbuild.bat static
+xcopy lua51.exp "$(SolutionDir)3rdParty\lib\" /Y
+xcopy lua51.lib "$(SolutionDir)3rdParty\lib\" /Y</Command>
+    </PreLinkEvent>
+    <PreLinkEvent>
+      <Message>Build moonjit</Message>
+    </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="include\zz_algebra.h" />
